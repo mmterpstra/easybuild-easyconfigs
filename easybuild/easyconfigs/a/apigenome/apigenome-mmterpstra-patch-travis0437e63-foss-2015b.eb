@@ -1,0 +1,45 @@
+# This file is an EasyBuild reciPY as per https://github.com/hpcugent/easybuild
+# Author: Pablo Escobar Lopez
+# Swiss Institute of Bioinformatics
+# Biozentrum - University of Basel
+
+easyblock = 'ConfigureMake'
+
+name = 'apigenome'
+version = 'mmterpstra-patch-travis0437e63'
+
+homepage = "https://github.com/hyunminkang/apigenome"
+description = """
+Libraries and command-line utilities for big data genomic analysis
+"""
+toolchain = {'name': 'foss', 'version': '2015b'}
+
+source_urls = ['https://github.com/mmterpstra/apigenome/archive/']
+sources = ['mmterpstra-patch-travis.zip']
+
+dependencies = [('zlib', '1.2.8'),
+    ('bzip2','1.0.6'),
+    ('XZ','5.2.2'),
+    ('libtool','2.4.2'),
+    ('R','3.3.2'),
+    ('Autoconf','2.69'),
+    ('Automake','1.15'),
+    ('M4','1.4.17'),
+    ('Autotools','20150215'),
+    ('cURL','7.47.1'),
+    ('gnuplot','4.6.0'),
+    ('YAML-Syck','1.30','-Perl-5.22.0-bare')]
+
+#osdeps: GNU troff (groff) version 1.18.1.4
+
+preconfigopts="(rm -rf htslib && wget https://github.com/samtools/htslib/archive/1.4.zip && unzip 1.4.zip && mv htslib-1.4/ htslib && cd htslib && autoheader && autoreconf && ./configure --prefix $(pwd) && make -j 10 && cp Makefile Makefile.in) &&autoheader && aclocal &&automake --add-missing &&  autoreconf &&"
+prebuildopts="rm libtool && ln -s /usr/bin/libtool libtool && "
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ["bin/"],
+}
+
+moduleclass = 'bio'
+
+checksums = ['9904089a6d0527fbae6bac939a564bae']

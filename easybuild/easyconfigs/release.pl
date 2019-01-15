@@ -8,7 +8,7 @@ use Data::Dumper;
 my $sourcedir = "";
 
 #print join("\n",glob("/data/umcg-mterpstra/apps//software/*/*/*/*.eb"))."\n";
-my @ebs=glob("/data/umcg-mterpstra/apps//software/*/*/*/*.eb");
+my @ebs=(glob("/apps//software/*/*/*/*.eb"),glob("/data/umcg-mterpstra/apps//software/*/*/*/*.eb"),glob("/software/software/*/*/*/*.eb"));
 for my $eb (@ebs){
 	chomp $eb;
 	my $dname = `dirname $0`;
@@ -34,7 +34,12 @@ for my $eb (@ebs){
 		copy ($eb, $ebtarget );
 		warn "Copying '$eb' to '$ebtarget'";
 		#
-		my $sources = GetEbSource({'sourcedir'=>'/data/umcg-mterpstra/apps/sources/','eb'=>$ebtarget});
+		my $sources;
+		if(-e '/data/umcg-mterpstra/apps/sources/' ){
+			$sources = GetEbSource({'sourcedir'=>'/data/umcg-mterpstra/apps/sources/','eb'=>$ebtarget});
+		}else{
+			$sources = GetEbSource({'sourcedir'=>'/apps/sources/','eb'=>$ebtarget});
+		}
 		AddEbChecksums({'sources' => $sources,'eb'=>$ebtarget});
 		#die `cat $ebtarget`;
 
@@ -116,7 +121,8 @@ sub GetEbSource {
 		if( -e $sourcedir.'/'.lc(substr($sfname,0,1)).'/'.$sfname.'/'. $sourcefile){
 			push(@{$sourcefiles},$sourcedir.'/'.lc(substr($sfname,0,1)).'/'.$sfname.'/'.$sourcefile);
 		}else{
-			die "cannot find '$sourcedir/".lc(substr($sfname,0,1))."/$sfname/'$sourcefile'";
+			#data/umcg-mterpstra/apps/sources//a/annovar/'annovar-13oct2016.tar.gz
+			die "cannot find '$sourcedir/".lc(substr($sfname,0,1))."/$sfname/$sourcefile'";
 		}
 	}
 	#die Dumper($sourcefiles)." ";
