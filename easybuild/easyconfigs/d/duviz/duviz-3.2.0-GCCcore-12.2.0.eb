@@ -1,0 +1,32 @@
+easyblock = 'PythonPackage'
+
+name = 'duviz'
+version = '3.2.0'
+
+homepage = 'https://github.com/soxofaan/duviz'
+description = """`duviz` is a simple UNIX command line utility written in Python to visualize disk space usage. """
+toolchain = {'name': 'GCCcore', 'version': '12.2.0'}
+
+source_urls = [('https://github.com/soxofaan/duviz/archive/refs/tags/')]
+sources = [('v3.2.0.tar.gz')]
+checksums = ['6592f39928a0759419bfd7ea6740df85f9fd40df297af22e8910d07608a9933f']
+
+dependencies = [
+    ('Python', '3.10.8'),
+]
+
+
+#options = {'modulename': 'duviz'}
+#lazyloading a script names duviz goes wrong so we need to copy duviz.py to bin and then add bin to modextrapaths I believe...
+postinstallcmds = ['cp  %(builddir)s/%(namelower)s-%(version)s/duviz.py %(installdir)s/bin/']
+#postinstallcmds = ['mv %(installdir)s/bin/%(namelower)s{,.py}']
+modextrapaths = {'PYTHONPATH': 'bin'}
+
+#sanity_check_commands = ['python -c "import sys; [print( p )for p in sys.path];"', 'exit 1']
+sanity_check_paths = {
+    'files': ['bin/' + name + '.py'],
+    'dirs': []
+}
+
+moduleclass = 'tools'
+
