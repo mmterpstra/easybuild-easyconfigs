@@ -1,0 +1,38 @@
+easyblock = 'MakeCp'
+
+name = 'molgenis-c5-TumorNormal'
+
+local_long_version = '232820e823958f91b3df6e66b309d0cae13506b0'
+# the first 7 chars
+version = '232820e'
+
+
+#no additional deps needed to run the workflows only the protocol generation deps added.
+versionsuffix = '-bare'
+
+homepage = 'https://github.com/mmterpstra/molgenis-c5-TumorNormal/tree/devel'
+description = """ Compute workflow collection for HTS.
+"""
+
+toolchain = {'name': 'foss', 'version': '2018b'}
+
+source_urls = ['https://github.com/mmterpstra/molgenis-c5-TumorNormal/archive/']
+sources = ['%s.tar.gz' % local_long_version]
+checksums = ['97ed604309236ec2adb6b22aed30d7e6bbe6d36e7b393f31b63f9232226f1ca4']
+
+# parallel build breaks... for now
+parallel = 1
+
+dependencies = [
+    ('Java', '11-LTS','', ('system', '')),
+    ('Molgenis-Compute', 'v19.01.1', '-Java-%(javaver)s', ('system', '')),
+]
+files_to_copy = ['workflows', 'scripts', 'tests', 'parameters', 'templates']
+
+sanity_check_paths = {
+    'files': ['scripts/GenerateScripts.sh', 'parameters/parameters.csv'],
+    'dirs': []
+}
+
+moduleclass = 'bio'
+modextrapaths = {'PATH': ['scripts/']}
