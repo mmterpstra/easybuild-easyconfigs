@@ -24,6 +24,9 @@ skipsteps = ['configure']
 
 installopts = 'PREFIX=%(installdir)s '
 
+modextrapaths = {'INCLUDE': ['include/smithwaterman']}
+modextrapaths = {'CPATH': ['include/smithwaterman']}
+
 sanity_check_paths = {
     'files': ['bin/%(name)s', 'lib/libsw.%s' % SHLIB_EXT],
     'dirs': [],
