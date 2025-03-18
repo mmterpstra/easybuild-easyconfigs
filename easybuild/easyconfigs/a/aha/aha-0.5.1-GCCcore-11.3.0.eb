@@ -1,0 +1,26 @@
+easyblock = 'MakeCp'
+
+name = 'aha'
+version = '0.5.1'
+
+homepage = 'https://github.com/theZiz/aha/'
+description = """aha - Ansi HTML Adapter"""
+
+toolchain = {'name': 'GCCcore', 'version': '11.3.0'}
+
+#https://github.com/theZiz/aha/archive/refs/tags/0.5.1.tar.gz
+source_urls = ['https://github.com/theZiz/aha/archive/refs/tags/']
+sources = ['%(version)s.tar.gz']
+
+checksums = ['6aea13487f6b5c3e453a447a67345f8095282f5acd97344466816b05ebd0b3b1']
+
+builddependencies = [('binutils', '2.38')]
+
+files_to_copy = [(['aha'], 'bin')]
+
+sanity_check_paths = {
+    'files': ['bin/aha'],
+    'dirs': [],
+}
+
+moduleclass = 'tools'
