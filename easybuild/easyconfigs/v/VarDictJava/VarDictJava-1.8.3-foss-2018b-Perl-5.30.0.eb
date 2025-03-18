@@ -1,0 +1,40 @@
+easyblock = 'Tarball'
+
+name = 'VarDictJava'
+version = '1.8.3'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://github.com/AstraZeneca-NGS/VarDictJava'
+description = """VarDictJava is an ultra sensitive variant caller for both single
+ and paired sample variant calling from BAM files. Java implementation."""
+
+toolchain = {'name': 'foss', 'version': '2018b'}
+
+#https://github.com/AstraZeneca-NGS/VarDictJava/releases/download/v1.8.3/VarDict-1.8.3.tar
+source_urls = ['https://github.com/AstraZeneca-NGS/VarDictJava/releases/download/v%(version)s/']
+sources = ['VarDict-%(version)s.tar']
+checksums = ['020a84d6718531097a05207a59d85d80803b0eda074ea6c0a3d1842cc84f2daf']
+
+dependencies = [
+    ('Java','8-LTS','',('system', '')),
+    ('R', '3.6.1', '-bare'),
+    ('Perl', '5.30.0', '-bare'),
+]
+
+keepsymlinks = True
+
+sanity_check_paths = {
+    'files': ['bin/testsomatic.R', 'bin/teststrandbias.R', 'bin/VarDict', 'bin/var2vcf_paired.pl', 'bin/var2vcf_valid.pl'],
+    'dirs': ['bin', 'lib'],
+}
+
+sanity_check_commands = [
+    "VarDict",
+]
+
+modextrapaths = {
+    'PATH': 'bin',
+    'PERL5LIB': '',
+}
+
+moduleclass = 'bio'
