@@ -1,0 +1,41 @@
+name = 'pipeline-util'
+version = '0.8.20-5-ga0a29bb'
+
+homepage = 'https://github.com/mmterpstra/pipeline-util'
+description = """pipeline utilities."""
+
+toolchain = {'name': 'foss', 'version': '2018b'}
+easyblock = 'PerlModule'
+
+
+source_urls = [('https://github.com/mmterpstra/%s/archive/' % (name) )]
+sources = [ '%s.tar.gz' % version ]
+checksums = ['1cbd0ec334e66964a43ea4f8ece3623dd2bd2c71b3ef743d9f995afad957886a']
+
+versionsuffix = '-Perl-5.30.0'
+
+dependencies = [
+    ('Perl', '5.30.0','-bare'),
+    ('PerlPlus', '5.30.0', '-v19.08.1'),
+    ('VCFtools', '0.1.16', '-%s-%s' % ('Perl', '5.30.0')),
+    ('R', '3.6.1', '-bare'),
+    ('RPlus', '3.6.1', '-v20.10.1' ),
+    ('HTSlib','1.10.2'),
+    ('SAMtools','1.10'),
+    ('BWA','0.7.17'),
+    ('HTSlib','1.10.2'),
+    ('BEDTools','2.28.0'),
+    ('BWA','0.7.17'),
+]
+
+
+sanity_check_paths = {
+    'files': ['bin/trimByBed.pl'],
+    'dirs': []
+}
+
+#modextrapaths = {'PATH': 'scripts/'}
+
+options = {'modulename': 'pipeline::util'}
+
+moduleclass = 'bio'
