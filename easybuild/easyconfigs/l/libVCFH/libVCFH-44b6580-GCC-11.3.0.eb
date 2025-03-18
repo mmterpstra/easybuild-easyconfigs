@@ -1,0 +1,42 @@
+##
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+#
+# Copyright:: Copyright 2012-2014 Uni.Lu/LCSB, NTUA
+# Authors::   Cedric Laczny <cedric.laczny@uni.lu>, Fotis Georgatos <fotis@cern.ch>
+# License::   MIT/GPL
+# $Id$
+#
+# This work implements a part of the HPCBIOS project and is a component of the policy:
+# http://hpcbios.readthedocs.org/en/latest/HPCBIOS_2012-94.html
+##
+
+easyblock = 'MakeCp'
+
+name = 'libVCFH'
+version = '44b6580'
+local_long_version = '44b6580639a216a484fd96de75a839091f25768a'
+homepage = 'https://github.com/edawson/libVCFH'
+description = "libVCFH is a set of data structures you can populate to print a VCf header. It should be in spec with VCF4.1/4.2."
+
+toolchain = {'name': 'GCC', 'version': '11.3.0'}
+
+github_account = 'edawson'
+source_urls = ['https://github.com/edawson/libVCFH/archive/']
+sources = ["%s.tar.gz" % local_long_version]
+checksums = [ '22f71ee875171560567a0bcfba01e7c35a5c306ea01ba783dfedb500a31fb846' ]
+
+files_to_copy = [
+    (['libvcfh.a',
+    'vcfheader.o'], 'lib'),
+    (['main.cpp',
+            'vcfheader.cpp',
+            'vcfheader.hpp'],
+        'include')
+]
+
+sanity_check_paths = {
+    'files': ['lib/vcfheader.o'],
+    'dirs': ['include','lib'],
+}
+
+moduleclass = 'bio'
