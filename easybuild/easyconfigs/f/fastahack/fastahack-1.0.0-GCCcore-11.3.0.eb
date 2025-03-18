@@ -1,6 +1,4 @@
 # Updated: Denis Kristak (INUITS)
-# Updated: Petr Král (INUITS)
-
 easyblock = 'ConfigureMake'
 
 name = 'fastahack'
@@ -25,6 +23,9 @@ builddependencies = [('binutils', '2.38')]
 skipsteps = ['configure']
 
 installopts = 'PREFIX=%(installdir)s '
+
+modextrapaths = {'INCLUDE': ['include/fastahack']}
+modextrapaths = {'CPATH': ['include/fastahack']}
 
 sanity_check_paths = {
     'files': ['bin/%(name)s', 'lib/libfastahack.%s' % SHLIB_EXT],
