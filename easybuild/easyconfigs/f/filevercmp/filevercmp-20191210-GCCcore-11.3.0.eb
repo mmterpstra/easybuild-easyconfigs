@@ -1,6 +1,4 @@
 # Updated: Denis Kristak (INUITS)
-# Updated: Petr Král (INUITS)
-
 easyblock = 'ConfigureMake'
 
 name = 'filevercmp'
@@ -26,6 +24,9 @@ builddependencies = [('binutils', '2.38')]
 skipsteps = ['configure']
 
 installopts = 'DESTDIR="" PREFIX=%(installdir)s '
+
+modextrapaths = {'INCLUDE': ['include/%(name)s']}
+modextrapaths = {'CPATH': ['include/%(name)s']}
 
 sanity_check_paths = {
     'files': ['bin/%(name)s', 'lib/libfilevercmp.%s' % SHLIB_EXT],
