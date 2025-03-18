@@ -1,5 +1,4 @@
-# Author: Jasper Grimm (UoY)
-# Updated: Petr Král (INUITS)
+	# Author: Jasper Grimm (UoY)
 
 easyblock = 'ConfigureMake'
 
@@ -14,24 +13,29 @@ toolchain = {'name': 'GCC', 'version': '11.3.0'}
 github_account = 'ekg'
 source_urls = [GITHUB_SOURCE]
 sources = ['v%(version)s.tar.gz']
-patches = ['%(name)s-%(version)s_use-external-HTSlib.patch']
-
+#patches = ['%(name)s-1.1.0_use-external-HTSlib.patch']
 checksums = [
-    'c850299c3c495221818a85c9205c60185c8ed9468d5ec2ed034470bb852229dc',  # v1.1.2.tar.gz
-    'a4684b6c3a69258d0686f601564b635ae3dc098e712783b46d9ca5b7ff996906',  # tabixpp-1.1.2_use-external-HTSlib.patch
+    {'v1.1.2.tar.gz':
+        'c850299c3c495221818a85c9205c60185c8ed9468d5ec2ed034470bb852229dc'},
+#    {'tabixpp-1.1.0_use-external-HTSlib.patch':
+#        '65496b6e042cf54290386a33cf0de26cb1160b3ddb35216765999d790b99cab4'},
 ]
 
 dependencies = [
     ('zlib', '1.2.12'),
     ('bzip2', '1.0.8'),
     ('XZ', '5.2.5'),
-    ('HTSlib', '1.15.1'),
-    ('PCRE', '8.45'),
+    ('HTSlib', '1.16'),
+    ('PCRE2', '10.40'),
 ]
 
 skipsteps = ['configure']
 
-preinstallopts = 'PREFIX=%(installdir)s'
+local_opts = ' HTS_LIB=$EBROOTHTSLIB/lib/libhts.a HTS_HEADERS="$EBROOTHTSLIB/include/htslib/bgzf.h $EBROOTHTSLIB/include/htslib/tbx.h" SLIB=libtabixpp.so.1 LIB=libtabixpp.a'
+buildopts =  local_opts
+installopts = ' PREFIX=%(installdir)s DESTDIR=""' + local_opts 
+postinstallcmds = ['ln -s %(installdir)s/lib/libtabixpp.' + SHLIB_EXT +
+    '.1 %(installdir)s/lib/libtabixpp.' + SHLIB_EXT ]
 
 sanity_check_paths = {
     'files': ['bin/tabix++', 'lib/libtabixpp.%s' % SHLIB_EXT],
