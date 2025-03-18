@@ -1,0 +1,33 @@
+name = 'TableToXlsx'
+version = '0.3.0'
+
+homepage = 'https://github.com/mmterpstra/TableToXlsx'
+description = """Lazy xlsx conversion for tsv/csv files from perl or for the cli"""
+
+toolchain = {'name': 'GCCcore', 'version': '11.3.0'}
+easyblock = 'PerlModule'
+
+source_urls = [('https://github.com/mmterpstra/%s/archive/' % (name) )]
+sources = [ '%s.tar.gz' % version ]
+
+perl = 'Perl'
+perlver = '5.34.1'
+versionsuffix = '-%s-%s' % (perl, perlver)
+
+dependencies = [
+    (perl, perlver),
+    ('Excel-Writer-XLSX', '1.11'),
+]
+
+checksums = ['32637066157ad14e98a9b211962fdc9c76ddd87c5b9912f4f72c72b4a250c2e3']
+
+sanity_check_paths = {
+    'files': ['bin/tableToXlsx.pl'],
+    'dirs': []
+}
+
+#modextrapaths = {'PATH': 'scripts/'}
+
+options = {'modulename': 'TableToXlsx'}
+
+moduleclass = 'tools'
