@@ -1,0 +1,52 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+#
+# Author: Jonas Demeulemeester
+# The Francis Crick Insitute, London, UK
+# Updated to 1.21 jpecar / EMBL
+
+easyblock = 'ConfigureMake'
+
+name = 'BCFtoolsScore'
+version = '1.21-db4da22'
+
+homepage = 'https://www.htslib.org/'
+description = """Samtools is a suite of programs for interacting with high-throughput sequencing data.
+ BCFtools - Reading/writing BCF2/VCF/gVCF files and calling/filtering/summarising SNP and short indel sequence
+ variants. With the freeseek/score plugins"""
+
+toolchain = {'name': 'foss', 'version': '2022b'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://github.com/samtools/bcftools/releases/download/1.21/','https://github.com/freeseek/score/archive/']
+sources = [
+    'bcftools-1.21.tar.bz2',
+    'db4da22b6254636fe5e6865ea8ffe28133ca33eb.tar.gz',
+]
+checksums = [
+    '528a4cc1d3555368db75a700b22a3c95da893fd1827f6d304716dfd45ea4e282',
+    'bdfcd293656a540648056f69ab240260ab7ba04288e2f7c5f2abd208e7a53302'
+]
+
+dependencies = [
+    ('zlib', '1.2.12'),
+    ('HTSlib', '1.21'),
+    ('bzip2', '1.0.8'),
+    ('XZ', '5.2.7'),
+    ('GSL', '2.7'),
+    ('SuiteSparse','7.8.2','-METIS-5.1.0'),
+    ('R','4.2.2')
+]
+
+preconfigopts = "perl -i.bak -wpe 's/#include \"cholmod.h\"/#include \"suitesparse\/cholmod.h\"/g'"
+preconfigopts += " ../score-*/{score.{c,h},{munge,liftover,metal,blup}.c,pgs.{c,mk}} &&"
+preconfigopts += " cp -v ../score-*/{score.{c,h},{munge,liftover,metal,blup}.c,pgs.{c,mk}} ./plugins/ &&"
+preconfigopts += " cp -v ../score-*/assoc_plot.R %(installdir)s/bin/ && "
+configopts = "--with-htslib=$EBROOTHTSLIB --enable-libgsl"
+installopts = "&& cp -v ../score-*/assoc_plot.R %(installdir)s/bin/ && chmod 755 %(installdir)s/bin/assoc_plot.R " 
+
+sanity_check_paths = {
+    'files': ['bin/bcftools', 'bin/plot-vcfstats', 'bin/vcfutils.pl'],
+    'dirs': ['libexec/bcftools'],
+}
+
+moduleclass = 'bio'
