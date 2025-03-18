@@ -20,7 +20,14 @@ checksums = [
 builddependencies = [('binutils', '2.38')]
 
 local_bins = [name, 'multipermute']
-files_to_copy = [(local_bins, 'bin'), (['*.h'], 'include/%(name)s')]
+
+files_to_copy = [
+    (local_bins, 'bin'),
+    (['*.h'], 'include/%(name)s'),
+]
+
+modextrapaths = {'INCLUDE': ['include/multichoose']}
+modextrapaths = {'CPATH': ['include/multichoose']}
 
 sanity_check_paths = {
     'files': ['bin/%s' % x for x in local_bins],
