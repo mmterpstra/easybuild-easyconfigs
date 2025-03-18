@@ -1,0 +1,173 @@
+easyblock = 'Bundle'
+name = 'R-bundle-ichorCNA'
+version = '0.3.2-20191219'
+versionsuffix = '-R-4.2.1'
+homepage = 'http://www.r-project.org/'
+description = """IchorCNA for purity and Copy Number Alterations in tumor data."""
+moduleclass = 'lang'
+modextrapaths = {'R_LIBS': ['library', '']}
+toolchain = {'name': 'foss', 'version': '2022a'}
+
+dependencies = [
+    ('R', '4.2.1',),
+    ('GMP', '6.2.1'),
+    ('UDUNITS', '2.2.28'),
+    ('ImageMagick', '7.1.0-37'),
+    ('NLopt', '2.7.1'),
+    ('nodejs', '16.15.1'),
+    ('librsvg', '2.55.1'),
+]
+
+source_urls = [
+    'http://www.bioconductor.org/packages/release/bioc/src/contrib/',
+    'http://www.bioconductor.org/packages/release/data/annotation/src/contrib/',
+    'http://www.bioconductor.org/packages/release/data/experiment/src/contrib/',
+    'http://www.bioconductor.org/packages/release/extra/src/contrib/',
+    'http://bioconductor.org/packages/3.16/bioc/src/contrib/',
+    'http://bioconductor.org/packages/3.16/data/annotation/src/contrib/',
+    'http://bioconductor.org/packages/3.16/data/experiment/src/contrib/',
+    'http://bioconductor.org/packages/3.16/workflows/src/contrib/',
+    'http://bioconductor.org/packages/3.16/bioc/src/contrib/Archive/%(name)s/',
+    'http://bioconductor.org/packages/3.16/data/annotation/src/contrib/Archive/%(name)s/',
+    'http://bioconductor.org/packages/3.16/data/experiment/src/contrib/Archive/%(name)s/',
+    'http://bioconductor.org/packages/3.16/workflows/src/contrib/Archive/%(name)s/',
+]
+
+#sources = ['5bfc03ed854f0e93fe5b624c97c1290fa0053837.tar.gz']
+#checksums = ['38dbee4f4127fc27c4bd51fe3d99cb9eebea6fa9a15463127384923c217f1d74']
+
+#unpack_sources = True
+#preinstall_cmd = 'ls -R ./ %(installdir)s %(builddir)s && exit 1 &&'
+
+#
+# The '.' is a silly workaround to check for whatever current dir as workaround
+# until an updated RPackage is available, which installs extension R packages in a library subdir.
+#
+sanity_check_paths = {
+    'files': [],
+    'dirs': [('library', '.')],
+}
+
+exts_defaultclass = 'RPackage'
+exts_filter = ('R -q --no-save', 'library(%(ext_name)s)')
+exts_default_options = {'sources': ['%(name)s_%(version)s.tar.gz']}
+#
+# R package list.
+#   * Order of packages is important!
+#   * Packages should be specified with fixed versions!
+#
+#xBiocGenerics  xBiocManager  xBiocVersion   xGenomeInfoDb  xGenomeInfoDbData  xGenomicRanges  HMMcopy  ichorCNA  xIRanges  logging  xS4Vectors  xXVector  xzlibbioc
+exts_list = [
+    ('logging', '0.10-108', {
+        'source_tmpl': '%(name)s_%(version)s.tar.gz',
+        'source_urls': [
+            'http://cran.r-project.org/src/contrib/',
+            'http://cran.r-project.org/src/contrib/Archive/%(name)s',
+        ],
+        'checksums': ['85c91aa5a313f5f9fbb0394cda3f924a2495cca3cc5cd68dde0695fe3c20ed8d'],
+    }),
+    ('BiocGenerics', '0.44.0', {
+        'checksums': ['8518e462c1ef103ab059d059d871afc444e48f56fe6b3afdb60dc1abf6c9b09d'],
+    }),
+    ('S4Vectors', '0.36.2', {
+        'checksums': ['68b441289882bde641a1d736287b2dfb837c21b21e18b127b9fee1fc5d792c8c'],
+    }),
+    ('restfulr', '0.0.15', {
+        'source_tmpl': '%(name)s_%(version)s.tar.gz',
+        'source_urls': [
+            'http://cran.r-project.org/src/contrib/',
+            'http://cran.r-project.org/src/contrib/Archive/%(name)s',
+        ],
+        'checksums': ['40ff8f1fb2987af2223e1a855bb1680c5ce2143fbce7ebc42f1edb291f80e692'],
+    }),
+    ('IRanges', '2.32.0', {
+        'checksums': ['097935916b5cb33804e1ea09fa6c4ee7ddeaa03eef99138a05b1896b28dc6a4b'],
+    }),
+    ('GenomeInfoDbData', '1.2.9', {
+        'checksums': ['e63a719a8eceefeda39fc95de83e7aa41caad39705efc712a44ab4021adc45fa'],
+    }),
+    ('GenomeInfoDb', '1.34.9', {
+        'checksums': ['2bbb094636bf628447ed4c49b4cd96c164264d012a59f0fe5982f12e6a6bc956'],
+    }),
+    ('zlibbioc', '1.44.0', {
+        'checksums': ['8b2616b722e2d610cdd41aba1a94b987ab017e0bfff63f6ce66f191e81abe530'],
+    }),
+    ('XVector', '0.38.0', {
+        'checksums': ['e9ba0ec3f4124c6f0ce13c4d562e7e4419f8aa5db4283092574a63a207f4ed79'],
+    }),
+    ('GenomicRanges', '1.50.2', {
+        'checksums': ['37fdc2074f17b833002c906998b09c88174c054bc5dd9fffdba1f76c4d5d668d'],
+    }),
+#    ('BiocManager', '1.30.20', {
+#        'checksums': ['b9e72d7687abbd785a69fecb530ec86ad92257a6be95b8e15953b193a516d5ea'],
+#    }),
+    ('BiocVersion', '3.16.0', {
+        'checksums': ['dc7af08c09242cc436be7b91e46705789d13ac3a3939211ee9be8511fc1057b6'],
+    }),
+    #BSgenome.Hsapiens.NCBI.GRCh38', ‘MatrixGenerics’, ‘Biobase’, ‘DelayedArray’, ‘SummarizedExperiment’, ‘GenomicAlignments’, ‘BiocIO’, ‘restfulr’, ‘BiocParallel’, ‘Rhtslib’, ‘Biostrings’, ‘rtracklayer’, ‘Rsamtools’, ‘BSgenome’
+    #Just install by ls -St order in the installdir (This is the easyest and somewhat reliable way of getting some sort of dependency sorted list)
+    ('MatrixGenerics', '1.10.0', {
+        'checksums': ['09fbea178608186571acabc18cd2b81fe5c7aa2d143f5d456ceaed55e01b4815'],
+    }),
+    ('Biobase', '2.58.0', {
+        'checksums': ['db798af54eb18d83242b1ffbb1fa35b5bc0256cedf86b9a6519e2d786d20e566'],
+    }),
+    ('BiocIO', '1.8.0', {
+        'checksums': ['2e41284256ef5dac4deb27ee41f973092e091c387a77cf3e3d588c39aceea495'],
+    }),
+    #cranpackage('restfulr', '0.0.15', {
+    #    'checksums': ['dc7af08c09242cc436be7b91e46705789d13ac3a3939211ee9be8511fc1057b6'],
+    #}),
+    ('BiocParallel', '1.32.6', {
+        'checksums': ['40d26698c2fa5e33418d41e6b95657b5ee6f9f5122a5e1ac6940222d5d5903ab'],
+    }),
+    ('Rhtslib', '2.0.0', {
+        'checksums': ['5098bf9f4e8bbbe7eea3d63480c5c970af87b68998d625a2ec0f12b2393727e6'],
+    }),
+    ('Biostrings', '2.66.0', {
+        'checksums': ['7312c508bc2fe6ea3da75edd621b41a35929f9dbdca16d25eb3724ca2cd206fd'],
+    }),
+    ('DelayedArray', '0.24.0', {
+        'checksums': ['d764b4f487b49ca04150ea7d8f5f180683cd80575d67a162e4a99cd52bd8815a'],
+    }),
+    ('Rsamtools', '2.14.0', {
+        'checksums': ['5fe4f80752459f6f1691320ffeffd2d7d17d52dcef60c7a7035fd714ac86a471'],
+    }),
+    ('SummarizedExperiment', '1.28.0', {
+        'checksums': ['96e5e4f496ce32d8c812a7483d9208aa1b89cbf6c0342bd53c95c419bad92721'],
+    }),
+    ('GenomicAlignments', '1.34.1', {
+        'checksums': ['1af0675483cd233ebc4c6d086ffec0c054e0066c424ccea97bc4ec825824e8b0'],
+    }),
+    ('rtracklayer', '1.58.0', {
+        'checksums': ['b3d2dddd3924ab739324aad65c149949d73d879eeb9e2fe39a6ecd5a9d03b9e3'],
+    }),
+    ('BSgenome', '1.66.3', {
+        'checksums': ['46fb92b6bab87c36cdd79f60e1d81c56d02ce06c0ef12e26d21eed9aa2d147df'],
+    }),
+    ('BSgenome.Hsapiens.NCBI.GRCh38', '1.3.1000', {
+        'checksums': ['812538bdacfd0eb90714916203dec85b22de2a5f7aaf0d0431d0a15370c3e578'],
+    }),
+    ('BSgenome.Hsapiens.UCSC.hg19', '1.4.3', {
+        'checksums': ['5bfa65d7836449d9b30c356968497cdfaa98be48c4e329e71e8f8a120f3e9d1a'],
+    }),
+    ('HMMcopy', '1.40.0', {
+        'checksums': ['bb4469b4050a0b86cbd8158efbec435931075495fdd639509fc9f3eda9b0325c'],
+    }),
+    ('ichorCNA','0.3.2-20191219', {
+        'source_urls' : ['https://github.com/broadinstitute/ichorCNA/archive/'],
+        'sources' : ['5bfc03ed854f0e93fe5b624c97c1290fa0053837.tar.gz'],
+        'checksums' : ['38dbee4f4127fc27c4bd51fe3d99cb9eebea6fa9a15463127384923c217f1d74'],
+        'unpack_sources' : True,
+        #'preinstall_cmd' : 'ls $PWD %(installdir)s %(builddir)s && printenv | grep EBROOT && exit 1&& chmod 775 %(builddir)s/scripts/*.R && mkdir -p %(installdir)s/bin && cp -rv %(builddir)s/scripts/* %(installdir)s/extdata/bin/'
+    }),
+]
+
+#postinstallcmds = ["ls $PWD %(installdir)s %(builddir)s && printenv | grep 'EBROOT\|ichorCNA' && exit 1 &&
+postinstallcmds = [
+    'sed -i.old "1s;^;#!/usr/bin/env Rscript\\n;" %(builddir)s/ichorCNA/ichorCNA-5bfc03ed854f0e93fe5b624c97c1290fa0053837/scripts/*.R',
+    'chmod 775 %(builddir)s/ichorCNA/ichorCNA-5bfc03ed854f0e93fe5b624c97c1290fa0053837/scripts/*.R',
+    'mkdir -p %(installdir)s/ichorCNA/bin',
+    'cp -rv %(builddir)s/ichorCNA/ichorCNA-5bfc03ed854f0e93fe5b624c97c1290fa0053837/scripts/* %(installdir)s/ichorCNA/bin/'
+]
+#modextrapaths = {'PATH': 'ichorCNA/bin'} #This conflicts with the extension paths
