@@ -1,0 +1,46 @@
+##
+# This is a contribution from Phoenix HPC Service, The University of Adelaide, Australia
+# Homepage: https://www.adelaide.edu.au/phoenix/
+#
+# Copyright::   adelaide.edu.au/phoenix  
+# Authors::     Robert Qiao <robert.qiao@adelaide.edu.au>, Exe Escobedo <exequiel.sepulvedaescobedo@adelaide.edu.au>
+# License::     GPL-v3.0
+#
+# Notes::
+##
+
+easyblock = 'Binary'
+
+name = 'GRIDSS'
+version = '1.4.1'
+
+homepage = 'https://github.com/PapenfussLab/gridss'
+description = """ GRIDSS a module software suite containing tools 
+useful for the detection genomic rearrangements. 
+GRIDSS includes a genome-wide break-end assembler, 
+as well as a structural variation caller for Illumina sequencing data. 
+GRIDSS calls variants based on alignment-guided positional de Bruijn graph 
+genome-wide break-end assembly, split read, and read pair evidence.
+"""
+
+toolchain = {'name': 'foss', 'version': '2018b'}
+
+source_urls = ['https://github.com/PapenfussLab/gridss/releases/download/v%(version)s']
+sources = ['%(name)s-%(version)s-jar-with-dependencies.jar']
+#sha256sum
+checksums = ['74aa7a91955cbe4d44f4cda4692057fee9963c0eb98203aa7e77ba42cc59fee9']
+#versionsuffix = '-Java-8-LTS'
+
+dependencies = [
+    ('RPlus','3.6.1','-v21.10.1'),
+    ('Java', '8-LTS', '', True),
+]
+
+sanity_check_paths = {
+    'files': ['%(name)s-%(version)s-jar-with-dependencies.jar'],
+    'dirs': [],
+}
+
+modloadmsg = 'To execute GRIDSS run: java -jar $EBROOTGRIDSS/%(name)s-%(version)s-jar-with-dependencies.jar\n'
+
+moduleclass = 'bio'
