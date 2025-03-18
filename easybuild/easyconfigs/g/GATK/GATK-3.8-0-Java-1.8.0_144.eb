@@ -28,8 +28,9 @@ description = """The Genome Analysis Toolkit or GATK is a software package devel
 
 toolchain = SYSTEM
 
-# download manually from http://www.broadinstitute.org/gatk/download
-sources = ['GenomeAnalysisTK-%(version)s.tar.bz2']
+# download from https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-0-ge9d806836.tar.bz2
+source_urls = ['https://storage.googleapis.com/gatk-software/package-archive/gatk/']
+sources = ['GenomeAnalysisTK-%(version)s-ge9d806836.tar.bz2']
 checksums = ['d1017b851f0cc6442b75ac88dd438e58203fa3ef1d1c38eb280071ae3803b9f1']
 
 dependencies = [('Java', '1.8.0_144')]
