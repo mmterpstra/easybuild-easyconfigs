@@ -1,0 +1,35 @@
+easyblock = 'Tarball'
+
+name = 'Zig'
+version = '0.9.1'
+versionsuffix = "-linux-x86_64"
+homepage = 'https://ziglang.org'
+description = """Zig is a general-purpose programming language and toolchain 
+for maintaining robust, optimal and reusable software."""
+
+toolchain = {'name': 'GCC', 'version': '11.3.0'}
+
+#https://ziglang.org/download/0.9.1/zig-0.9.1.tar.xz
+source_urls = ['https://ziglang.org/download/%(version)s/']
+sources = ['%s%s-%s.tar.xz' % (name.lower(),versionsuffix, version)]
+checksums = [ 'be8da632c1d3273f766b69244d80669fe4f5e27798654681d77c992f17c237d7' ]
+
+#builddependencies = [
+#    ('binutils', '2.38'),
+#    ('CMake', '3.23.1'),
+#    ('pkgconf', '1.8.0'),
+#    ('LLVM', '13.0.3'),
+#    ('zstd', '1.5.2')
+#]
+
+#buildopts = ' -DZIG_STATIC_LLVM=ON -DCMAKE_PREFIX_PATH="$EBROOTLLVM;$EBROOTZSTD"'
+
+modextrapaths = {'PATH': '.', 'LD_LIBRARY_PATH': 'lib'}
+
+sanity_check_paths = {
+    'files': ['zig'],
+    'dirs': ['lib'],
+}
+
+moduleclass = 'lang'
+
